@@ -1,0 +1,61 @@
+#!/bin/bash
+#
+# mediasmartserverd: Start/Stop Media Smartserver Notification
+#
+# chkconfig: - 90 10
+# description: Media Smartserver Notification
+#
+# Source function library.
+. /etc/init.d/functions
+# Source networking configuration.
+#. /etc/sysconfig/network
+
+# Init-Skript
+PROG="Media Smartserver Notification"
+PROG_NAME="mediasmartserverd"
+PROG_EXE="/opt/mediasmartserverd/mediasmartserverd --daemon"
+PROG_LOG="/var/log/mediasmartserverd.log"
+
+start() {
+   echo -n $"Starting $PROG: "
+   echo "Starting $PROG: $(date)" > $PROG_LOG
+   #daemon --check $PROG_NAME nohup $PROG_EXE >> $PROG_LOG &
+   daemon --check $PROG_NAME $PROG_EXE >> $PROG_LOG
+   RETVAL=$?
+   echo
+   [ $RETVAL -eq 0 ] && touch /var/lock/subsys/$PROG_NAME
+   return $RETVAL
+}
+   
+stop() {
+   echo -n $"Shutting down $PROG: "
+   echo "Shutting down $PROG: $(date)" >> $PROG_LOG
+   killproc $PROG_NAME
+   RETVAL=$?
+   echo
+   [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/$PROG_NAME
+   return $RETVAL
+}
+
+case "$1" in
+  start)
+   start
+        ;;
+  stop)
+   stop
+        ;;
+  status)
+   status $PROG_NAME
+   RETVAL=$?
+   ;;
+  restart|reload)
+   stop
+   start
+   RETVAL=$?
+   ;;
+  *)
+   echo $"Usage: $0 {start|stop|restart|status}"
+   RETVAL=3
+esac
+
+exit $RETVAL
