@@ -4,6 +4,11 @@
 #
 # chkconfig: - 90 10
 # description: Media Smartserver Notification
+#              for CentOS based operation systems
+#              
+#              Create symlink under /etc/init.d/  
+#              and add service with chkconfig --add mediasmartserverd
+#              and activate the service with chkconfig mediasmartserverd on
 #
 # Source function library.
 . /etc/init.d/functions
