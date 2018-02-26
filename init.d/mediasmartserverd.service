@@ -1,0 +1,15 @@
+# 
+# Service for Media Smartserver Notification
+# for install add symlink to /etc/systemd/system
+# and install with systemctl enable mediasmartserverd.service
+# 
+
+[Unit]
+Description=Media Smartserver Notification
+
+[Service]
+Type=simple
+ExecStart=/opt/mediasmartserverd/mediasmartserverd --daemon
+
+[Install]
+WantedBy=multi-user.target
